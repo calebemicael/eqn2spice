@@ -1,0 +1,5 @@
+INORDER = a b c d e;
+OUTORDER = OUT;
+OUT = a*!b*!c*!d*!e + a*b*!c*!d*!e + a*b*c*!d*!e + a*b*!c*d*!e + a*b*c*d*!e + !
+a*!b*!c*!d*e + a*!b*!c*!d*e + !a*b*!c*!d*e + a*b*!c*!d*e + !a*b*c*!d*e + a*b*c*!
+d*e + !a*b*!c*d*e + a*b*!c*d*e + !a*b*c*d*e + a*b*c*d*e;
