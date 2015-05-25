@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abstractSyntax;
+package abstractSyntax.visitor;
 
-import abstractSyntax.visitor.ExpressionVisitor;
+import abstractSyntax.Declaration;
 
 /**
  *
  * @author calebemicael
  */
-public abstract class Expression {
-	public abstract Object accept(ExpressionVisitor visitor);
+public interface GenericVisitor{
+	
+	public Object visit(Declaration dec);
 }

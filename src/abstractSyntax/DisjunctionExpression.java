@@ -21,8 +21,8 @@ public class DisjunctionExpression extends Expression{
 	}
 	
 	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
+	public Object accept(ExpressionVisitor visitor) {
+		return visitor.visit(this);
 	}
 	
 	public Expression getLeft() {

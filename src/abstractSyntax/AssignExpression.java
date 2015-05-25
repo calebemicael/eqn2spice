@@ -14,24 +14,26 @@ import parser.Symbol;
  */
 public class AssignExpression extends Expression{
 	Expression exp;
-	Symbol target;
+	Symbol targetOutput;
 
 	public AssignExpression(Expression exp) {
 		this.exp = exp;
-		this.target = Symbol.symbol("Y");
 	}
 
 	@Override
-	public void accept(ExpressionVisitor visitor) {
-		visitor.visit(this);
+	public Object accept(ExpressionVisitor visitor) {
+		return visitor.visit(this);
 	}
 	
-	public String getTarget(){
-		return target.toString();
+	public Symbol getTarget(){
+		return targetOutput;
 	}
 
+	public void setTarget(LiteralExpression output){
+		targetOutput = output.getSymbol();
+	}
+	
 	public Expression getExp() {
 		return exp;
 	}
-	
 }

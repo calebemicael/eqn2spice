@@ -13,7 +13,7 @@ import java_cup.runtime.Symbol;
  *DIRETIVAS DE PRE-PROCESSAMENTO DO JFLEX*
  *****************************************/
 %unicode
-%debug
+//%debug
 %public
 %cup
 %line

@@ -7,27 +7,53 @@ package tools;
 
 import abstractSyntax.AssignExpression;
 import abstractSyntax.ConjunctionExpression;
+import abstractSyntax.Declaration;
 import abstractSyntax.DisjunctionExpression;
+import abstractSyntax.Expression;
 import abstractSyntax.NegativeExpression;
-import abstractSyntax.TerminalExpression;
+import abstractSyntax.LiteralExpression;
 import abstractSyntax.visitor.ExpressionVisitor;
-import java.beans.Expression;
+import abstractSyntax.visitor.GenericVisitor;
 import parser.Symbol;
 
 /**
  *
  * @author calebemicael
  */
-public class PrettyPrinter implements ExpressionVisitor{
-	AssignExpression e;
+public class PrettyPrinter implements ExpressionVisitor,GenericVisitor{
+	Declaration d;
 	StringBuilder sb;
-	public PrettyPrinter(AssignExpression e) {
-		this.e = e;
+	public PrettyPrinter(Declaration d) {
+		this.d = d;
 		sb = new StringBuilder();
 	}
-	
+
+	@Override
+	public Object visit(Declaration dec) {
+		sb.append("INORDER = ");
+		for(LiteralExpression le: dec.getInputs()){
+			visit(le);
+			sb.append(" ");
+		}
+		sb.append(";\n");
+		sb.append("OUTORDER = ");
+		for(LiteralExpression le: dec.getOutputs()){
+			visit(le);
+			sb.append(" ");
+		}
+		sb.append(";\n");
+		for(LiteralExpression le: dec.getAssigns().keySet()){
+			visit(le);
+			sb.append(" = ");
+			visit(dec.getAssigns().get(le));
+		}
+		sb.append(";\n");
+		
+		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return null;
+	}
 	public void run(){
-		e.accept(this);
+		d.accept(this);
 	}
 
 	@Override
@@ -76,11 +102,26 @@ public class PrettyPrinter implements ExpressionVisitor{
 	}
 
 	@Override
-	public Object visit(TerminalExpression termExp) {
+	public Object visit(LiteralExpression termExp) {
 		sb.append(termExp.getSymbol());
 		return null;
 	}
-	
+
+	@Override
+	public Object visit(Expression exp) {
+		if(exp instanceof NegativeExpression){
+			visit((NegativeExpression) exp);
+		}else if(exp instanceof ConjunctionExpression){
+			visit((ConjunctionExpression) exp);
+		}else if(exp instanceof DisjunctionExpression){
+			visit((DisjunctionExpression) exp);
+		}else if(exp instanceof LiteralExpression){
+			visit((LiteralExpression) exp);
+		}else if(exp instanceof AssignExpression){
+			visit((AssignExpression) exp);
+		}
+		return null;
+	}
 	public String toString(){
 		return sb.toString();
 	}

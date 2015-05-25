@@ -6,10 +6,11 @@
 package abstractSyntax.visitor;
 
 import abstractSyntax.AssignExpression;
+import abstractSyntax.Expression;
 import abstractSyntax.ConjunctionExpression;
 import abstractSyntax.DisjunctionExpression;
 import abstractSyntax.NegativeExpression;
-import abstractSyntax.TerminalExpression;
+import abstractSyntax.LiteralExpression;
 
 /**
  *
@@ -20,6 +21,7 @@ public interface ExpressionVisitor{
 	public Object visit(NegativeExpression negExp);
 	public Object visit(ConjunctionExpression conjExp);
 	public Object visit(DisjunctionExpression disjExp);
-	public Object visit(TerminalExpression termExp);
+	public Object visit(LiteralExpression termExp);
 	public Object visit(AssignExpression assExp);
+	public Object visit(Expression exp);
 }
