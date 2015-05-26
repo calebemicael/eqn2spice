@@ -33,6 +33,12 @@ public class LiteralExpression extends Expression{
 	public Symbol getSymbol() {
 		return s;
 	}
+
+	public void setSymbol(Symbol s) {
+		this.s = s;
+	}
+	
+	
 	
 	public void invert(){
 		this.inverted++;

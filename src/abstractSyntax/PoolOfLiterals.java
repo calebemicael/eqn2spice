@@ -14,7 +14,8 @@ import parser.Symbol;
  */
 public class PoolOfLiterals {
 	private static HashMap<Symbol,LiteralExpression>base= new HashMap<>();
-
+	private static HashMap<LiteralExpression,Symbol>reverseBase= new HashMap<>();
+	private static char currentNode = (char)65;
 	public PoolOfLiterals() {
 		base = new HashMap<>();
 	}
@@ -24,11 +25,35 @@ public class PoolOfLiterals {
 		if(le == null){
 			le = new LiteralExpression(sym);
 			add(sym,le);
+			addReverse(le, sym);
 		}
 		return le;
 	}
-
-	private static void add(Symbol sym, LiteralExpression wire) {
-		base.put(sym, wire);
+	
+	public static Symbol get(LiteralExpression le) {
+		Symbol s = reverseBase.get(le);
+		if(s == null){
+			s = Symbol.symbol(createNodeName());
+			add(s,le);
+			addReverse(le,s);
+		}
+		return s;
+	}
+	
+	
+	
+	private static String createNodeName(){
+		String aux="node_";
+		aux+=currentNode;
+		currentNode++;
+		return aux;
+	}
+	
+	private static void add(Symbol sym, LiteralExpression le) {
+		base.put(sym, le);
+	}
+	
+	private static void addReverse(LiteralExpression le,Symbol sym) {
+		reverseBase.put(le,sym);
 	}
 }

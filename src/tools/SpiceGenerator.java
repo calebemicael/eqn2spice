@@ -12,7 +12,8 @@ import abstractSyntax.DisjunctionExpression;
 import abstractSyntax.Expression;
 import abstractSyntax.NegativeExpression;
 import abstractSyntax.LiteralExpression;
-import abstractSyntax.SubNetwork;
+import abstractSyntax.PoolOfLiterals;
+import abstractSyntax.Transistor;
 import abstractSyntax.visitor.ExpressionVisitor;
 import abstractSyntax.visitor.GenericVisitor;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class SpiceGenerator implements ExpressionVisitor,GenericVisitor{
 	// NOTE2: apenas pra testar a logica, vou manter uma lista global de transis-
 	// tores cadastrados, e, apos fazer todas as alteracoes de lista de nodos que 
 	// sao fonte e dreno, vou imprimir as descricoes de cada um, pra ver o resultado.
-	List<SubNetwork> transistorList;
+	List<Transistor> transistorList;
 	
 	public SpiceGenerator(Declaration d, String name) {
 		this.name = name;
@@ -99,20 +100,14 @@ public class SpiceGenerator implements ExpressionVisitor,GenericVisitor{
 		//sb.append(")");
 		
 
-		SubNetwork l = (SubNetwork)left;
-		SubNetwork r = (SubNetwork)right;
+		Transistor l = (Transistor)left;
+		Transistor r = (Transistor)right;
 		// I'm doing this because it is a + operation
-		// TODO: In fact, what I want to do is to compose a new SubNetwork based on
+		// TODO: In fact, what I want to do is to compose a new Transistor based on
 		// these two. The linking logic will be the same.
 		l.linkDrainTo(r.getSource());
 		// r.linkDrainTo(l.getSource());	// this option brings different electrical
 																			// characteristics.
-		// AQUI: no lugar de return null, tem que return  a subnet composta. < TODO
-		//return null;
-		// THINK ABOUT IT: You, asshole programmer, don't need to implement a subnet
-		// here, maybe you just need to update node information of the transistors
-		// related to this operation. Maybe if you handle the nodes like refereces,
-		// not like lists, you can do better than this shit. Signed: myself.
 		return l;
 	}
 
@@ -124,14 +119,12 @@ public class SpiceGenerator implements ExpressionVisitor,GenericVisitor{
 		Object right = disjExp.getRight().accept(this);
 		//sb.append(")");
 		
-		SubNetwork l = (SubNetwork)left;
-		SubNetwork r = (SubNetwork)right;
+		Transistor l = (Transistor)left;
+		Transistor r = (Transistor)right;
 		// I'm doing this because it is a + operation
 		l.linkDrainTo(r.getDrain());
 		l.linkSourceTo(r.getSource());
 		
-		// AQUI: no lugar de return null, tem que return  a subnet composta. < TODO
-		//return null;
 		return l;
 	}
 
@@ -149,32 +142,27 @@ public class SpiceGenerator implements ExpressionVisitor,GenericVisitor{
 		if(printPar){
 			sb.append(")");
 		}
-		// AQUI: no lugar de return null, tem que return  a subnet composta. < TODO
-		//return null;
-		return (SubNetwork)o;
+		return (Transistor)o;
 	}
-	int node = 65;
+	
 	boolean ready = false;
 	@Override
 	public Object visit(LiteralExpression termExp) {
 		sb.append(termExp.getSymbol());
 		
-		SubNetwork sn = new SubNetwork();
+		Transistor sn = new Transistor();
 		
-		List<Symbol> l = new ArrayList<>();
-		l.add(Symbol.symbol(""+(char)node+"1"));
-		sn.linkSourceTo(l);
-		node++;
+		//link the source to a LiteralExpression, just for the reference to work with
+		sn.linkSourceTo(new LiteralExpression(null));
 		
-		sn.setGate(termExp.getSymbol());
+		sn.setGate(PoolOfLiterals.get(termExp.getSymbol()));
 		
-		l = new ArrayList<>();
-		l.add(Symbol.symbol(""+(char)node+"1"));
-		sn.linkDrainTo(l);
+		//link the source to a LiteralExpression, just for the reference to work with
+		sn.linkDrainTo(new LiteralExpression(null));
 		
-		node++;
+		sn.setBulk(PoolOfLiterals.get(Symbol.symbol("GND")));
 		
-		sn.setBulk(Symbol.symbol("GND"));
+		// isso eh uma POG maldita. Ajustar essa bosta!
 		if(ready){
 			transistorList.add(sn);
 		}
@@ -201,7 +189,7 @@ public class SpiceGenerator implements ExpressionVisitor,GenericVisitor{
 	}
 	
 	public void includeTransistors(){
-		for(SubNetwork sn: transistorList){
+		for(Transistor sn: transistorList){
 			sb.append(sn.toString()+"\n");
 		}
 	}
