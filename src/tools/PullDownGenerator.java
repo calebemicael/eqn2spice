@@ -29,7 +29,8 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 	float baseSizeW;
 	float baseSizeL;
 	// TODO: Play with transistor sizes.
-	
+	float minSizeW; // TODO: uses this value.
+	float minSizeL; // TODO: uses this value.
 	public PullDownGenerator(Declaration d) {
 		this.d = d;
 		sb = new StringBuilder();

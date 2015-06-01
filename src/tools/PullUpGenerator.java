@@ -28,7 +28,8 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 	StringBuilder sb;
 	float baseSizeW;
 	float baseSizeL;
-	
+	float minSizeW; // TODO: uses this value.
+	float minSizeL; // TODO: uses this value.
 	// TODO: Play with transistor sizes.
 	
 	public PullUpGenerator(Declaration d) {
