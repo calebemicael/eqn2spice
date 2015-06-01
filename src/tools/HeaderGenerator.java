@@ -14,94 +14,67 @@ import abstractSyntax.NegativeExpression;
 import abstractSyntax.LiteralExpression;
 import abstractSyntax.visitor.ExpressionVisitor;
 import abstractSyntax.visitor.GenericVisitor;
-import parser.Symbol;
 
 /**
  *
  * @author calebemicael
  */
-public class PrettyPrinter implements ExpressionVisitor,GenericVisitor{
+public class HeaderGenerator implements ExpressionVisitor,GenericVisitor{
 	Declaration d;
+	String name;
 	StringBuilder sb;
-	public PrettyPrinter(Declaration d) {
+	
+	public HeaderGenerator(Declaration d, String name) {
+		this.name = name;
 		this.d = d;
 		sb = new StringBuilder();
 	}
 
 	@Override
 	public Object visit(Declaration dec) {
-		sb.append("INORDER = ");
+		sb.append(".subckt ");
+		sb.append(this.name);
+		sb.append(" ");
 		for(LiteralExpression le: dec.getInputs()){
 			visit(le);
 			sb.append(" ");
 		}
-		sb.append(";\n");
-		sb.append("OUTORDER = ");
 		for(LiteralExpression le: dec.getOutputs()){
 			visit(le);
 			sb.append(" ");
 		}
-		sb.append(";\n");
-		for(AssignExpression ae: dec.getAssigns()){
-			visit(ae.getTarget());
-			sb.append(" = ");
-			visit(ae.getExp());
-		}
-		sb.append(";\n");
+		sb.append("vcc gnd\n");
 		
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 		return null;
 	}
+	
 	public void run(){
 		d.accept(this);
 	}
 
 	@Override
 	public Object visit(AssignExpression assExp) {
-		sb.append(assExp.getTarget());
-		sb.append(" = ");
-		assExp.getExp().accept(this);
 		return null;
 	}
 
+	
+
 	@Override
 	public Object visit(ConjunctionExpression conjExp) {
-		//sb.append("(");
-		conjExp.getLeft().accept(this);
-		sb.append("*");
-		conjExp.getRight().accept(this);
-		//sb.append(")");
-		return null;
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public Object visit(DisjunctionExpression disjExp) {
-		//sb.append("(");
-		disjExp.getLeft().accept(this);
-		sb.append("+");
-		disjExp.getRight().accept(this);
-		//sb.append(")");
-		return null;
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public Object visit(NegativeExpression negExp) {
-		sb.append("!");
-		boolean printPar = false; 
-		printPar |= negExp.getExp() instanceof ConjunctionExpression;
-		printPar |= negExp.getExp() instanceof DisjunctionExpression;
-		
-		if(printPar){
-			sb.append("(");
-		}		
-		negExp.getExp().accept(this);
-		if(printPar){
-			sb.append(")");
-		}
-		return null;
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
-	@Override
+	
 	public Object visit(LiteralExpression termExp) {
 		sb.append(termExp.getSymbol());
 		return null;
@@ -122,6 +95,7 @@ public class PrettyPrinter implements ExpressionVisitor,GenericVisitor{
 		}
 		return null;
 	}
+	
 	public String toString(){
 		return sb.toString();
 	}

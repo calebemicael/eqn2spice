@@ -61,7 +61,7 @@ declarations ::= input_dec:in output_dec:out expr_dec:assignExp
 									Declaration d = new Declaration();
 									d.setInputs(in);
 									d.setOutputs(out);
-									d.assign(PoolOfLiterals.get(assignExp.getTarget()),assignExp.getExp());
+									d.assign(assignExp.getTarget(),assignExp.getExp());
 									RESULT = d;
 								:}
 								;
@@ -107,14 +107,12 @@ output_list ::= OUTPUT_IDENTIFIER:oid output_list:list
 expr_dec ::= L_BRACE OUTPUT_IDENTIFIER:output R_BRACE ASSIGN expr_0:r SEMICOLON
 						{:
 							//System.out.print(output);
-							AssignExpression ae = new AssignExpression(r);
-							ae.setTarget(PoolOfLiterals.get(Symbol.symbol(""+output)));
+							AssignExpression ae = new AssignExpression(PoolOfLiterals.get(Symbol.symbol(""+output)),r);
 							RESULT = ae;
 						:}
 						|OUTPUT_IDENTIFIER:output ASSIGN expr_0:r SEMICOLON
 						{:
-							AssignExpression ae = new AssignExpression(r);
-							ae.setTarget(PoolOfLiterals.get(Symbol.symbol(""+output)));
+							AssignExpression ae = new AssignExpression(PoolOfLiterals.get(Symbol.symbol(""+output)),r);
 							RESULT = ae;
 						:}
 						;

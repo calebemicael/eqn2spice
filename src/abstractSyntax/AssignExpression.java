@@ -14,9 +14,10 @@ import parser.Symbol;
  */
 public class AssignExpression extends Expression{
 	Expression exp;
-	Symbol targetOutput;
+	LiteralExpression targetOutput;
 
-	public AssignExpression(Expression exp) {
+	public AssignExpression(LiteralExpression target, Expression exp) {
+		this.targetOutput = target;
 		this.exp = exp;
 	}
 
@@ -25,12 +26,12 @@ public class AssignExpression extends Expression{
 		return visitor.visit(this);
 	}
 	
-	public Symbol getTarget(){
+	public LiteralExpression getTarget(){
 		return targetOutput;
 	}
 
 	public void setTarget(LiteralExpression output){
-		targetOutput = output.getSymbol();
+		targetOutput = output;
 	}
 	
 	public Expression getExp() {

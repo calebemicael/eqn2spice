@@ -11,22 +11,43 @@ import parser.Symbol;
  *
  * @author calebemicael
  */
-public class Transistor {
-	LiteralExpression source;
-	LiteralExpression gate;         // vai ser sempre a porta.
-	LiteralExpression drain;
-	LiteralExpression bulk;         // vai ser sempre o GND pra o pulldown e o VCC pro pullup
+public class Transistor extends Network{
+	LiteralExpression gate; // vai ser sempre o literal.
+	LiteralExpression bulk;  // vai ser sempre o GND pra o pulldown e o VCC pro pullup
+	float L = 350;
+	float W = 2000;
 	
 	public Transistor() {
+		super(false);
+	}
+
+	public float getW() {
+		return W;
+	}
+
+	public void setW(float W) {
+		this.W = W;
+	}
+
+	public float getL() {
+		return L;
+	}
+
+	public void setL(float L) {
+		this.L = L;
 	}
 	
+	
+	
+	@Override
 	public void linkSourceTo(LiteralExpression node){
 		this.source = node;
 	}
-	
+	@Override
 	public void linkDrainTo(LiteralExpression node){
 		this.drain = node;
 	}
+	
 	
 	public void setGate(LiteralExpression s){
 		this.gate = s;
@@ -43,17 +64,8 @@ public class Transistor {
 	public LiteralExpression getGate() {
 		return gate;
 	}
-
-	public LiteralExpression getSource() {
-		return source;
-	}
-
-	public LiteralExpression getDrain() {
-		return drain;
-	}
 	
-	@Override
-	public String toString() {
+	public String toNMosString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("mn_1 ");
 		sb.append(PoolOfLiterals.get(source).toString());
@@ -63,7 +75,29 @@ public class Transistor {
 		sb.append(PoolOfLiterals.get(drain).toString());
 		sb.append(" ");
 		sb.append(PoolOfLiterals.get(bulk).toString());
-		sb.append(" modn L=XXXu W=YYYu");
+		sb.append(" modp W=");
+		sb.append(String.format("%.2f", this.W));
+		sb.append("n L=");
+		sb.append(String.format("%.2f", this.L));
+		sb.append("n");
+		return sb.toString();
+	}
+	
+	public String toPMosString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("mp_1 ");
+		sb.append(PoolOfLiterals.get(source).toString());
+		sb.append(" ");
+		sb.append(PoolOfLiterals.get(gate).toString());
+		sb.append(" ");
+		sb.append(PoolOfLiterals.get(drain).toString());
+		sb.append(" ");
+		sb.append(PoolOfLiterals.get(bulk).toString());
+		sb.append(" modp W=");
+		sb.append(String.format("%.2f", this.W));
+		sb.append("n L=");
+		sb.append(String.format("%.2f", this.L));
+		sb.append("n");
 		return sb.toString();
 	}
 }

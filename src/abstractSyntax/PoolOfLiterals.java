@@ -24,18 +24,29 @@ public class PoolOfLiterals {
 		LiteralExpression le = base.get(sym);
 		if(le == null){
 			le = new LiteralExpression(sym);
+			le.setSymbol(sym);
 			add(sym,le);
-			addReverse(le, sym);
+			add(le, sym);
 		}
 		return le;
+	}
+	
+	public static void update(Symbol s, LiteralExpression le){
+		Symbol s_old = reverseBase.get(le);
+		base.remove(s_old); // removes the LiteralExpression that was key to le.
+		LiteralExpression le_old = base.get(s);
+		reverseBase.remove(le_old); // removes the LiteralExpression that was key to s.
+		base.put(s, le);
+		reverseBase.put(le, s);
 	}
 	
 	public static Symbol get(LiteralExpression le) {
 		Symbol s = reverseBase.get(le);
 		if(s == null){
 			s = Symbol.symbol(createNodeName());
+			le.setSymbol(s);
 			add(s,le);
-			addReverse(le,s);
+			add(le,s);
 		}
 		return s;
 	}
@@ -49,11 +60,11 @@ public class PoolOfLiterals {
 		return aux;
 	}
 	
-	private static void add(Symbol sym, LiteralExpression le) {
-		base.put(sym, le);
+	private static void add(Symbol key, LiteralExpression value) {
+		base.put(key, value);
 	}
 	
-	private static void addReverse(LiteralExpression le,Symbol sym) {
-		reverseBase.put(le,sym);
+	private static void add(LiteralExpression key,Symbol value) {
+		reverseBase.put(key,value);
 	}
 }

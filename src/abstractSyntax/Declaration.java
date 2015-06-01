@@ -6,6 +6,7 @@
 package abstractSyntax;
 
 import abstractSyntax.visitor.GenericVisitor;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,10 @@ import java.util.Map;
 public class Declaration {
 	List<LiteralExpression> inputs;
 	List<LiteralExpression> outputs;
-	Map<LiteralExpression, Expression> assigns;
+	List<AssignExpression> assigns;
 
 	public Declaration() {
-		assigns = new HashMap<>();
+		assigns = new ArrayList<>();
 	}
 	
 	public void setInputs(List<LiteralExpression> inputs) {
@@ -35,7 +36,7 @@ public class Declaration {
 		return outputs;
 	}
 
-	public Map<LiteralExpression, Expression> getAssigns() {
+	public List<AssignExpression> getAssigns() {
 		return assigns;
 	}
 
@@ -44,7 +45,7 @@ public class Declaration {
 	}
 	
 	public void assign(LiteralExpression le, Expression e ){
-		assigns.put(le, e);
+		assigns.add(new AssignExpression(le,e));
 	}
 	
 	public void accept(GenericVisitor visitor) {

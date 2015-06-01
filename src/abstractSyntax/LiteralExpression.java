@@ -37,6 +37,11 @@ public class LiteralExpression extends Expression{
 	public void setSymbol(Symbol s) {
 		this.s = s;
 	}
+
+	@Override
+	public String toString() {
+		return this.s.toString();
+	}
 	
 	
 	

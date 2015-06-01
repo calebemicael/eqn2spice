@@ -16,7 +16,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import parser.Analizador;
 import parser.Yylex;
-import tools.SpiceGenerator;
+import tools.HeaderGenerator;
+import tools.PrettyPrinter;
+import tools.PullDownGenerator;
+import tools.PullUpGenerator;
 
 /**
  *
@@ -34,9 +37,23 @@ public class Main {
 			//
 			Analizador p = new Analizador(new Yylex(buff));
 			Declaration dec = (Declaration)p.parse().value;
-			SpiceGenerator pp = new SpiceGenerator(dec,"gate_0");
-			pp.run();
-			System.out.println(pp.toString());
+			
+			HeaderGenerator header = new HeaderGenerator(dec,"gate_0");
+			
+			PullDownGenerator pdn = new PullDownGenerator(dec);
+			pdn.setBaseSizeL(350);
+			pdn.setBaseSizeW(2400);
+			
+			PullUpGenerator pun = new PullUpGenerator(dec);
+			pun.setBaseSizeL(350);
+			pun.setBaseSizeW(3600);
+			//PrettyPrinter pp = new PrettyPrinter(dec);
+			header.run();
+			pdn.run();
+			pun.run();
+			System.out.println(header.toString());
+			System.out.println(pdn.toString());
+			System.out.println(pun.toString());
 			//p.parse();
 		} catch (FileNotFoundException ex) {
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

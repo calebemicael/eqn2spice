@@ -52,4 +52,11 @@ public class Symbol {
 	public int hashcode() {
 		return hashCd;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.name.equals(((Symbol)obj).toString()); //To change body of generated methods, choose Tools | Templates.
+	}
+	
+	
 }
