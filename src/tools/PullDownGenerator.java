@@ -26,22 +26,24 @@ import parser.Symbol;
 public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 	Declaration d;
 	StringBuilder sb;
-	float baseSizeW;
-	float baseSizeL;
 	// TODO: Play with transistor sizes.
-	float minSizeW; // TODO: uses this value.
-	float minSizeL; // TODO: uses this value.
+	float baseW;
+	float baseL;
+	
+	float minW; // TODO: uses this value.
+	float minL; // TODO: uses this value.
+	
 	public PullDownGenerator(Declaration d) {
 		this.d = d;
 		sb = new StringBuilder();
 	}
 
-	public void setBaseSizeW(float baseSize) {
-		this.baseSizeW = baseSize;
+	public void setBaseW(float baseW) {
+		this.baseW = baseW;
 	}
 
-	public void setBaseSizeL(float baseSizeL) {
-		this.baseSizeL = baseSizeL;
+	public void setBaseL(float baseL) {
+		this.baseL = baseL;
 	}
 	
 	@Override
@@ -65,6 +67,11 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 		PoolOfLiterals.update(Symbol.symbol("gnd"), pullDown.getDrain());
 		PoolOfLiterals.update(assExp.getTarget().getSymbol(), pullDown.getSource());
 		
+		/**
+		 * Aqui abaixo eu chamo pra fazer o sizing dos transistores.
+		 */
+		pullDown.setW(baseW);
+		pullDown.setL(baseL);
 		printTransistors(pullDown);
 		
 		return null;
@@ -72,12 +79,8 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 	
 	@Override
 	public Object visit(ConjunctionExpression conjExp) {
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW*2.0f;
 		Network l = (Network)conjExp.getLeft().accept(this);
 		Network r = (Network)conjExp.getRight().accept(this);
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW/2.0f;
 		
 		l.linkDrainTo(r.getSource());
 		// r.linkDrainTo(l.getSource());	// this option brings different electrical
@@ -89,17 +92,19 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 		n.setSubNetB(r);
 		n.setSource(l.getSource());
 		n.setDrain(r.getDrain());
+		// a melhor solucao que encontrei ate agora eh fazer a primeira passada,
+		// contando quantos transistores tem em um dado branch, para entao fazer o
+		// sizing. Considero para a contagem os nos folhas, que sao as literais, ou
+		// as operacoes diferentes daquela que estou considerando.
+		// sizing for logical effort
+		
 		return n;
 	}
 
 	@Override
 	public Object visit(DisjunctionExpression disjExp) {
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW/2.0f;
 		Network l = (Network)disjExp.getLeft().accept(this);
 		Network r = (Network)disjExp.getRight().accept(this);
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW*2.0f;
 		// I'm doing this because it is a + operation, in a PullDown Network
 		l.linkDrainTo(r.getDrain());
 		l.linkSourceTo(r.getSource());
@@ -116,7 +121,6 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 	@Override
 	public Object visit(NegativeExpression negExp) {
 		// Sizing for logical effort. Negative expression has no impact.
-		this.baseSizeW = baseSizeW;
 		Object o = negExp.getExp().accept(this);
 		return (Network)o;
 	}
@@ -124,13 +128,12 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 	@Override
 	public Object visit(LiteralExpression termExp) {
 		Transistor sn = new Transistor();
-		sn.setW(this.baseSizeW);
-		sn.setL(this.baseSizeL);
 
 		sn.linkSourceTo(new LiteralExpression(null));
 		sn.setGate(PoolOfLiterals.get(termExp.getSymbol()));
 		sn.linkDrainTo(new LiteralExpression(null));
-		sn.setBulk(PoolOfLiterals.get(Symbol.symbol("gnd")));
+		// TODO verificar a conexao do bulk. Ta dando shits.
+		sn.setBulk(PoolOfLiterals.get(Symbol.symbol("GND")));
 
 		return sn;
 	}

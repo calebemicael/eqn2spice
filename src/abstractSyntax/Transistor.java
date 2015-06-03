@@ -14,30 +14,28 @@ import parser.Symbol;
 public class Transistor extends Network{
 	LiteralExpression gate; // vai ser sempre o literal.
 	LiteralExpression bulk;  // vai ser sempre o GND pra o pulldown e o VCC pro pullup
-	float L = 350;
-	float W = 2000;
 	
 	public Transistor() {
 		super(false);
 	}
 
-	public float getW() {
-		return W;
+	public int count(boolean isSerial) {
+		return 1;
 	}
 
+	@Override
+	public void setL(float L) {
+		this.L=L;
+	}
+
+	
 	public void setW(float W) {
 		this.W = W;
 	}
-
-	public float getL() {
-		return L;
-	}
-
-	public void setL(float L) {
-		this.L = L;
-	}
 	
-	
+	public void setW(float W, boolean isSerial) {
+		this.W = W;
+	}
 	
 	@Override
 	public void linkSourceTo(LiteralExpression node){

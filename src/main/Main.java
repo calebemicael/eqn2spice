@@ -41,8 +41,8 @@ public class Main {
 			HeaderGenerator header = new HeaderGenerator(dec,"gate_0");
 			
 			PullDownGenerator pdn = new PullDownGenerator(dec);
-			pdn.setBaseSizeL(350);
-			pdn.setBaseSizeW(2400);
+			pdn.setBaseL(350);
+			pdn.setBaseW(2400);
 			
 			PullUpGenerator pun = new PullUpGenerator(dec);
 			pun.setBaseSizeL(350);
@@ -52,8 +52,8 @@ public class Main {
 			pdn.run();
 			pun.run();
 			System.out.println(header.toString());
-			System.out.println(pdn.toString());
 			System.out.println(pun.toString());
+			System.out.println(pdn.toString());
 			//p.parse();
 		} catch (FileNotFoundException ex) {
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

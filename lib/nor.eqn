@@ -1,4 +1,4 @@
-INORDER = a b;
+INORDER = a b c;
 OUTORDER = OUT;
-OUT = !(a*b);
+OUT = !(a+b*c);
 

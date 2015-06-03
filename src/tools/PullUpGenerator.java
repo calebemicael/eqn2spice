@@ -26,10 +26,10 @@ import parser.Symbol;
 public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 	Declaration d;
 	StringBuilder sb;
-	float baseSizeW;
-	float baseSizeL;
-	float minSizeW; // TODO: uses this value.
-	float minSizeL; // TODO: uses this value.
+	float baseW;
+	float baseL;
+	float minW; // TODO: uses this value.
+	float minL; // TODO: uses this value.
 	// TODO: Play with transistor sizes.
 	
 	public PullUpGenerator(Declaration d) {
@@ -38,11 +38,11 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 	}
 	
 	public void setBaseSizeW(float baseSize) {
-		this.baseSizeW = baseSize;
+		this.baseW = baseSize;
 	}
 
 	public void setBaseSizeL(float baseSizeL) {
-		this.baseSizeL = baseSizeL;
+		this.baseL = baseSizeL;
 	}
 	
 	@Override
@@ -67,6 +67,12 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 		PoolOfLiterals.update(assExp.getTarget().getSymbol(), pullDown.getDrain());
 		PoolOfLiterals.update(Symbol.symbol("vcc"), pullDown.getSource());
 		
+		/**
+		 * Aqui abaixo eu chamo pra fazer o sizing dos transistores.
+		 */
+		pullDown.setW(baseW);
+		pullDown.setL(baseL);
+		
 		printTransistors(pullDown);
 		
 		return null;
@@ -74,12 +80,8 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 	
 	@Override
 	public Object visit(ConjunctionExpression conjExp) {
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW/2.0f;
 		Network l = (Network)conjExp.getLeft().accept(this);
 		Network r = (Network)conjExp.getRight().accept(this);
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW*2.0f;
 		// I'm doing this because it is a + operation, in a PullUp network
 		l.linkDrainTo(r.getDrain());
 		l.linkSourceTo(r.getSource());
@@ -95,12 +97,8 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 
 	@Override
 	public Object visit(DisjunctionExpression disjExp) {
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW*2.0f;
 		Network l = (Network)disjExp.getLeft().accept(this);
 		Network r = (Network)disjExp.getRight().accept(this);
-		// sizing for logical effort
-		this.baseSizeW = baseSizeW/2.0f;
 		l.linkDrainTo(r.getSource());
 		// r.linkDrainTo(l.getSource());	// this option brings different electrical
 																			// characteristics. When trying this, re-
@@ -118,7 +116,6 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 	@Override
 	public Object visit(NegativeExpression negExp) {
 		// Sizing for logical effort. Negative expression has no impact.
-		this.baseSizeW = baseSizeW;
 		Object o = negExp.getExp().accept(this);
 		return (Network)o;
 	}
@@ -128,8 +125,6 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 		Transistor sn=null;
 		
 		sn = new Transistor();
-		sn.setW(this.baseSizeW);
-		sn.setL(this.baseSizeL);
 		// yes, null. I want to play with references. Doesn't matter the name.
 		sn.linkSourceTo(new LiteralExpression(null));
 		sn.setGate(PoolOfLiterals.get(termExp.getSymbol()));
