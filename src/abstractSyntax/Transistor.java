@@ -14,11 +14,16 @@ import parser.Symbol;
 public class Transistor extends Network{
 	LiteralExpression gate; // vai ser sempre o literal.
 	LiteralExpression bulk;  // vai ser sempre o GND pra o pulldown e o VCC pro pullup
+	int number;
 	
 	public Transistor() {
 		super(false);
 	}
 
+	public void setNumber(int number) {
+		this.number = number;
+	}
+	
 	public int count(boolean isSerial) {
 		return 1;
 	}
@@ -65,7 +70,7 @@ public class Transistor extends Network{
 	
 	public String toNMosString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("mn_1 ");
+		sb.append("mn_"+number+" ");
 		sb.append(PoolOfLiterals.get(source).toString());
 		sb.append(" ");
 		sb.append(PoolOfLiterals.get(gate).toString());
@@ -83,7 +88,7 @@ public class Transistor extends Network{
 	
 	public String toPMosString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("mp_1 ");
+		sb.append("mp_"+number+" ");
 		sb.append(PoolOfLiterals.get(source).toString());
 		sb.append(" ");
 		sb.append(PoolOfLiterals.get(gate).toString());

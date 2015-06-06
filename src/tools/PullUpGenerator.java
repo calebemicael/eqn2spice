@@ -120,16 +120,19 @@ public class PullUpGenerator implements ExpressionVisitor,GenericVisitor{
 		return (Network)o;
 	}
 	
+	int num = 0;
+	
 	@Override
 	public Object visit(LiteralExpression termExp) {
 		Transistor sn=null;
 		
 		sn = new Transistor();
+		sn.setNumber(num);num++;
 		// yes, null. I want to play with references. Doesn't matter the name.
 		sn.linkSourceTo(new LiteralExpression(null));
 		sn.setGate(PoolOfLiterals.get(termExp.getSymbol()));
 		sn.linkDrainTo(new LiteralExpression(null));
-		sn.setBulk(PoolOfLiterals.get(Symbol.symbol("gnd")));
+		sn.setBulk(PoolOfLiterals.get(Symbol.symbol("VCC")));
 		
 		return sn;
 	}

@@ -124,11 +124,13 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 		Object o = negExp.getExp().accept(this);
 		return (Network)o;
 	}
-	
+	int num = 0;
 	@Override
 	public Object visit(LiteralExpression termExp) {
 		Transistor sn = new Transistor();
-
+		
+		sn.setNumber(num);num++;
+		
 		sn.linkSourceTo(new LiteralExpression(null));
 		sn.setGate(PoolOfLiterals.get(termExp.getSymbol()));
 		sn.linkDrainTo(new LiteralExpression(null));
