@@ -7,7 +7,7 @@
  * Autor: Calebe Micael de Oliveira Conceicao         *
  * Orientador: Ricardo Augusto da Luz Reis            *
  ******************************************************/
-package parser;
+package eqn2spice.parser;
 import java_cup.runtime.Symbol;
 
 

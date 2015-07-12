@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package generator;
+package eqn2spice.generator;
 
 import JFlex.SilentExit;
 import java.io.File;

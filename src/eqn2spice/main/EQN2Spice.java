@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package eqn2spice.main;
 
 
-import abstractSyntax.Declaration;
+import eqn2spice.abstractSyntax.Declaration;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,17 +16,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import parser.Analizador;
-import parser.Yylex;
-import tools.HeaderGenerator;
-import tools.PullDownGenerator;
-import tools.PullUpGenerator;
+import eqn2spice.parser.Analizador;
+import eqn2spice.parser.Yylex;
+import eqn2spice.tools.HeaderGenerator;
+import eqn2spice.tools.PullDownGenerator;
+import eqn2spice.tools.PullUpGenerator;
 
 /**
  *
  * @author calebemicael
  */
-public class Main {
+public class EQN2Spice {
 	public static int wPUN=3600;
 	public static int wPDN=2400;
 	public static int L=350;
@@ -43,7 +43,7 @@ public class Main {
 	}
 
 	public static void setGateName(String gateName) {
-		Main.gateName = gateName;
+		EQN2Spice.gateName = gateName;
 	}
 
 	private static int getwPDN() {
@@ -67,19 +67,19 @@ public class Main {
 	}
 	
 	public static void setwPDN(int wPDN) {
-		Main.wPDN = wPDN;
+		EQN2Spice.wPDN = wPDN;
 	}
 
 	public static void setScale(int scale) {
-		Main.scale = scale;
+		EQN2Spice.scale = scale;
 	}
 
 	public static void setwPUN(int wPUN) {
-		Main.wPUN = wPUN;
+		EQN2Spice.wPUN = wPUN;
 	}
 
 	public static void setL(int L) {
-		Main.L = L;
+		EQN2Spice.L = L;
 	}
 	
 	public static void main(String [] args)	{
@@ -129,7 +129,7 @@ public class Main {
 			bwr.flush();
 			bwr.close();
 		} catch (IOException ex) {
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(EQN2Spice.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 	
@@ -171,14 +171,14 @@ public class Main {
 			sb.append(pun.toString().replace("VCC", "vcc"));// a minor gambiarra
 			sb.append(pdn.toString().replace("GND", "gnd"));// a minor gambiarra
 		} catch (FileNotFoundException ex) {
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(EQN2Spice.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (Exception ex) {
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(EQN2Spice.class.getName()).log(Level.SEVERE, null, ex);
 		}finally {
 			try {
 				buff.close();
 			} catch (IOException ex) {
-				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+				Logger.getLogger(EQN2Spice.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 		return sb.toString();

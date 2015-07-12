@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abstractSyntax.visitor;
+package eqn2spice.abstractSyntax.visitor;
 
-import abstractSyntax.AssignExpression;
-import abstractSyntax.Expression;
-import abstractSyntax.ConjunctionExpression;
-import abstractSyntax.DisjunctionExpression;
-import abstractSyntax.NegativeExpression;
-import abstractSyntax.LiteralExpression;
+import eqn2spice.abstractSyntax.AssignExpression;
+import eqn2spice.abstractSyntax.Expression;
+import eqn2spice.abstractSyntax.ConjunctionExpression;
+import eqn2spice.abstractSyntax.DisjunctionExpression;
+import eqn2spice.abstractSyntax.NegativeExpression;
+import eqn2spice.abstractSyntax.LiteralExpression;
 
 /**
  *

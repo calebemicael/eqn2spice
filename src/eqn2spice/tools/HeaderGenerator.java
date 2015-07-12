@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package eqn2spice.tools;
 
-import abstractSyntax.AssignExpression;
-import abstractSyntax.ConjunctionExpression;
-import abstractSyntax.Declaration;
-import abstractSyntax.DisjunctionExpression;
-import abstractSyntax.Expression;
-import abstractSyntax.NegativeExpression;
-import abstractSyntax.LiteralExpression;
-import abstractSyntax.visitor.ExpressionVisitor;
-import abstractSyntax.visitor.GenericVisitor;
+import eqn2spice.abstractSyntax.AssignExpression;
+import eqn2spice.abstractSyntax.ConjunctionExpression;
+import eqn2spice.abstractSyntax.Declaration;
+import eqn2spice.abstractSyntax.DisjunctionExpression;
+import eqn2spice.abstractSyntax.Expression;
+import eqn2spice.abstractSyntax.NegativeExpression;
+import eqn2spice.abstractSyntax.LiteralExpression;
+import eqn2spice.abstractSyntax.visitor.ExpressionVisitor;
+import eqn2spice.abstractSyntax.visitor.GenericVisitor;
 
 /**
  *

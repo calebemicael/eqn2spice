@@ -4,7 +4,7 @@
 // Sat May 30 12:32:52 BRT 2015
 //----------------------------------------------------
 
-package parser;
+package eqn2spice.parser;
 
 /** CUP generated class containing symbol constants. */
 public class sym {

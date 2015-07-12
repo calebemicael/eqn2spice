@@ -4,11 +4,18 @@
 // Sat May 30 12:32:52 BRT 2015
 //----------------------------------------------------
 
-package parser;
+package eqn2spice.parser;
 
+import eqn2spice.abstractSyntax.DisjunctionExpression;
+import eqn2spice.abstractSyntax.PoolOfLiterals;
+import eqn2spice.abstractSyntax.AssignExpression;
+import eqn2spice.abstractSyntax.ConjunctionExpression;
+import eqn2spice.abstractSyntax.LiteralExpression;
+import eqn2spice.abstractSyntax.Expression;
+import eqn2spice.abstractSyntax.NegativeExpression;
+import eqn2spice.abstractSyntax.Declaration;
 import java_cup.runtime.*;
 import java.util.*;
-import abstractSyntax.*;
 
 /** CUP v0.11a beta 20060608 generated parser.
   * @version Sat May 30 12:32:52 BRT 2015

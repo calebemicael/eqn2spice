@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abstractSyntax;
+package eqn2spice.abstractSyntax;
 
-import abstractSyntax.visitor.GenericVisitor;
+import eqn2spice.abstractSyntax.visitor.GenericVisitor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

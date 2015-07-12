@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abstractSyntax;
+package eqn2spice.abstractSyntax;
 
-import parser.Symbol;
+import eqn2spice.parser.Symbol;
 
 /**
  *
