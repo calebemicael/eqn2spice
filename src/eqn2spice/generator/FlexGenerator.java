@@ -21,7 +21,7 @@ public class FlexGenerator {
 		try{
 			String [] options = new String[2];
 			options[0]="-d";
-			options[1]="src/parser/";
+			options[1]="src/eqn2spice/parser/";
 			JFlex.Main.parseOptions(options);
 		}catch(SilentExit e){
 			e.printStackTrace();

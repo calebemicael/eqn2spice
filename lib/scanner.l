@@ -5,7 +5,7 @@
  * Autor: Calebe Micael de Oliveira Conceicao         *
  * Orientador: Ricardo Augusto da Luz Reis            *
  ******************************************************/
-package parser;
+package eqn2spice.parser;
 import java_cup.runtime.Symbol;
 
 %%
@@ -50,7 +50,6 @@ StringBuffer string = new StringBuffer();
 /***************************************************
  *MACROS(ABREVIACOES) DAS EXP. REGULARES UTILIZADAS*
  ***************************************************/
-/*
 line_terminator = \r|\n|\r\n
 input_character = [^\r\n]
 white_space = {line_terminator} | [ \t\f]
@@ -69,7 +68,6 @@ hexadecimal    = {digit}|[a-f]|[A-F]
 letter         = {upper_case} | {lower_case} | "_"
 identifier     = {letter} ( {letter} | {digit} )*
 number_literal = {digit}+ | "\H"{hexadecimal}+
-*/
 %%
 
 <YYINITIAL> "INORDER"					{ 
@@ -115,12 +113,8 @@ number_literal = {digit}+ | "\H"{hexadecimal}+
 							return symbol(sym.R_BRACE); }
 
 
-<YYINITIAL> [a-z][a-z0-9]*	{ 
-								return symbol(sym.INPUT_IDENTIFIER, yytext()); 
-							}
-
-<YYINITIAL> [A-Z][A-Z0-9]*	{ 
-								return symbol(sym.OUTPUT_IDENTIFIER, yytext()); 
+<YYINITIAL> {identifier}	{ 
+								return symbol(sym.IDENTIFIER, yytext()); 
 							}
 
 <YYINITIAL> "//"[^\r\n]*[\r|\n|\r\n]	{; }

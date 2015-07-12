@@ -15,7 +15,7 @@ import eqn2spice.parser.Symbol;
 public class PoolOfLiterals {
 	private static HashMap<Symbol,LiteralExpression>base= new HashMap<>();
 	private static HashMap<LiteralExpression,Symbol>reverseBase= new HashMap<>();
-	private static char currentNode = (char)65;
+	private static int currentNode = 1;
 	public PoolOfLiterals() {
 		base = new HashMap<>();
 	}

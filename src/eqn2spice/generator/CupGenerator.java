@@ -15,7 +15,7 @@ public class CupGenerator{
 		//Seleccionamos la opción de dirección de destino
 		opciones[0] = "-destdir";
 		//Le damos la dirección
-		opciones[1] = "src/parser/";
+		opciones[1] = "src/eqn2spice/parser/";
 		//Seleccionamos la opción de nombre de archivo
 		opciones[2] = "-parser";
 		//Le damos el nombre que queremos que tenga
