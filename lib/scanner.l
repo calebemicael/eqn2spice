@@ -123,4 +123,4 @@ number_literal = {digit}+ | "\H"{hexadecimal}+
 <YYINITIAL> [\t]				{;}
 <YYINITIAL> [\n]				{;}
 
-<YYINITIAL> .						{ System.out.println("Unexpected character |"+ yytext()+"|"); }
+<YYINITIAL> .						{ System.out.println("eqn2spice: Unexpected character |"+ yytext()+"|"); }

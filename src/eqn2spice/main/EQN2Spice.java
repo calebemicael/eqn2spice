@@ -7,6 +7,7 @@ package eqn2spice.main;
 
 
 import eqn2spice.abstractSyntax.Declaration;
+import eqn2spice.abstractSyntax.PoolOfLiterals;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,8 +37,6 @@ public class EQN2Spice {
 	public static String gateName = "gate_0";
 	public static String USAGE_MESSAGE = "USAGE: eqn2spice <EQN input> -o <SPICE FILE>";
 	
-	
-
 	private static int getScale() {
 		return scale;
 	}
@@ -82,6 +81,10 @@ public class EQN2Spice {
 		EQN2Spice.L = L;
 	}
 	
+        public static void resetLiterals(){
+            PoolOfLiterals.reset();
+        }
+        
 	public static void main(String [] args)	{
 		switch(args.length){
 			case 1: 
@@ -170,6 +173,12 @@ public class EQN2Spice {
 			sb.append(header.toString());
 			sb.append(pun.toString().replace("VCC", "vcc"));// a minor gambiarra
 			sb.append(pdn.toString().replace("GND", "gnd"));// a minor gambiarra
+                        sb.append("\n.ends\n");
+                        
+                        String aux = new String();
+                        aux = sb.toString();
+                        sb = new StringBuilder();
+                        sb.append(aux.replace("vcc", "VDD").replace("gnd", "VSS"));
 		} catch (FileNotFoundException ex) {
 			Logger.getLogger(EQN2Spice.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (Exception ex) {

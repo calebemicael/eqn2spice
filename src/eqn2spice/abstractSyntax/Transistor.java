@@ -78,7 +78,7 @@ public class Transistor extends Network{
 		sb.append(PoolOfLiterals.get(drain).toString());
 		sb.append(" ");
 		sb.append(PoolOfLiterals.get(bulk).toString());
-		sb.append(" modp W=");
+		sb.append(" NMOS_VTL W=");
 		sb.append(String.format("%.2f", this.W));
 		sb.append("n L=");
 		sb.append(String.format("%.2f", this.L));
@@ -96,7 +96,7 @@ public class Transistor extends Network{
 		sb.append(PoolOfLiterals.get(drain).toString());
 		sb.append(" ");
 		sb.append(PoolOfLiterals.get(bulk).toString());
-		sb.append(" modp W=");
+		sb.append(" PMOS_VTL W=");
 		sb.append(String.format("%.2f", this.W));
 		sb.append("n L=");
 		sb.append(String.format("%.2f", this.L));

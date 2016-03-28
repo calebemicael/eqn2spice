@@ -19,7 +19,14 @@ public class PoolOfLiterals {
 	public PoolOfLiterals() {
 		base = new HashMap<>();
 	}
-
+        
+        public static void reset(){
+            currentNode = 1;
+            base = new HashMap<>();
+            reverseBase= new HashMap<>();
+        }
+        
+        
 	public static LiteralExpression get(Symbol sym) {
 		LiteralExpression le = base.get(sym);
 		if(le == null){
