@@ -1,0 +1,4 @@
+INORDER = a b c;
+OUTORDER = OUT;
+OUT = !(a+b+c);
+

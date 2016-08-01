@@ -84,9 +84,9 @@ public class PullDownGenerator implements ExpressionVisitor,GenericVisitor{
 		
 		l.linkDrainTo(r.getSource());
 		// r.linkDrainTo(l.getSource());	// this option brings different electrical
-																			// characteristics. When trying this, re-
-																			// member to adjust Network connectTo
-																			// operations, to reflect the new behavior
+		// characteristics. When trying this, re-
+		// member to adjust Network connectTo
+		// operations, to reflect the new behavior
 		Network n = new Network(true);
 		n.setSubNetA(l);
 		n.setSubNetB(r);
