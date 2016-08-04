@@ -118,6 +118,7 @@ number_literal = {digit}+ | "\H"{hexadecimal}+
 							}
 
 <YYINITIAL> "//"[^\r\n]*[\r|\n|\r\n]	{; }
+<YYINITIAL> "#".*                       {; }
 
 <YYINITIAL> " "					{;}
 <YYINITIAL> [\t]				{;}
